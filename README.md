@@ -2,7 +2,7 @@
 
 ## Table of Content
 1. BaseMaterials -> this folder contains the material provided by you 
-2. data -> this folder contians data on years i have managed to scrape 
+2. data -> this folder contains data on years i have managed to scrape 
 3. scripts -> this folder contians base scripts built but needs modifiction as am understanding data better . this is where main work will be 
 
 ## Question /comment 
