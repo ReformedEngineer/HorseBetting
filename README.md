@@ -5,6 +5,7 @@
 1. BaseMaterials -> this folder contains the material provided by you
 2. data -> this folder contains data on years i have managed to scrape
 3. scripts -> this folder contians base scripts built but needs modifiction as am understanding data better . this is where main work will be
+4. Models -> this is where Models for prediciton and the parmatrs needed fo thos emodels lie
 
 ## Question /comment
 
@@ -56,3 +57,18 @@ If there is a new horse in 2022 that didnt run any races in 2021, then there is 
 
 Same applies for a Horse in 2022 hat only ran 1 or 2 races in 2021
 
+## Models
+
+### Generic
+
+The model trianed on data from 2015 to 2020 wihtout any horse specific details.In next step this model should be refined to show it the ata fro year 2021 for horses to craete horse specific models. 
+
+This model is very rough right now as Data Cleaning is a very time consuming task and needs hours to properly look at each row of data. as an example racename @Ascot is the same as race name Ascot . due to imporper naming conventions across datasets , the model wont perform well so the data needs to be cleaned and made unform , i just take race name as an example to show the peopblem 
+
+Yet the resukt of this model is ok for the first run , as can be seen by running scripts/predict_generic.py file resut shown for test data for year 2022 below . this data was never shown to the model and was compeletly new data . but this models needs a lot of data cleaning, (***this can be done by someone as its very time consiming task ??***)
+
+> Correct predictions first place: 248/905  
+Correct predictions last place: 253/905  
+Correct top 3 predictions (at least 1 in top 3): 824/905  
+Correct top 3 predictions (at least 2 in top 3): 545/905  
+Correct top 3 predictions (all 3 in top 3): 167/905  
