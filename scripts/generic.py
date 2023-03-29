@@ -105,4 +105,4 @@ embedding_model.fit(split_inputs(X_train, categorical_features, numerical_featur
                     y_train, epochs=100, validation_data=(split_inputs(X_val, categorical_features, numerical_features), y_val),
                     callbacks=[early_stopping],verbose=1)
 
-embedding_model.save("generic.h5")
+embedding_model.save("models/generic/generic.h5")

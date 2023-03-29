@@ -72,3 +72,12 @@ Correct predictions last place: 253/905
 Correct top 3 predictions (at least 1 in top 3): 824/905  
 Correct top 3 predictions (at least 2 in top 3): 545/905  
 Correct top 3 predictions (all 3 in top 3): 167/905  
+
+#### Steps to clean data and re produce the model 
+1. Train_generic.csv is used for training model . Clean this file to the best of your requirement. Data clenaing is a task of going thorugh columns and removing the extra comma or dots or anything 
+2. Same should be done for Test.csv which is 2022 data that we will use for testing the model results
+3. once data is cleaned to your satisfaction , re run the scripts in this order  
+    - generic.py this will train a new model called generic.h5 which will be saved in the models folder . this training step will take at least 2-3 hours to run . any library needed to be installed can be installed using pip3 install 'library'
+    - then run predcit_generic.py to test the model on the Test.csv that must have been cleaned too 
+    - the model lofgic and architecture remains same so no issue should be encoutered unless some columns have been deleted or added. 
+     
