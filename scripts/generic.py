@@ -36,6 +36,7 @@ categorical_features = [
     'trainer',
     'owner',
     'race_name',
+    'course',
     # 'Unique_id'
 ]
 
@@ -77,7 +78,7 @@ y_train = y_scaler.fit_transform(y_train.values.reshape(-1, 1))
 y_val= y_scaler.transform(y_val.values.reshape(-1, 1))
 
 
-with open("preprocessing_objects.pkl", "wb") as f:
+with open("models/generic/preprocessing_objects.pkl", "wb") as f:
     pickle.dump({"encoders": encoders, "scaler": scaler, "y_scaler": y_scaler}, f)
     
 

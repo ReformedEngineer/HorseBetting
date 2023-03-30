@@ -13,7 +13,7 @@ def read_csv_file(csv_file,columns):
 columns=[
     'date',
     # 'region'
-    # 'course'
+    'course',
     # 'off'
     'race_name',
     'type',

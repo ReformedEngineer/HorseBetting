@@ -46,6 +46,7 @@ categorical_features = [
     'trainer',
     'owner',
     'race_name',
+    'course',
 ]
 
 numerical_features = [
@@ -60,8 +61,8 @@ data_to_predict[numerical_features] = data_to_predict[numerical_features].apply(
 
 print(data_to_predict.shape)
 # Remove rows with unseen labels in categorical features
-for feature in categorical_features:
-    data_to_predict = data_to_predict[data_to_predict[feature].isin(encoders[feature].classes_)]
+# for feature in categorical_features:
+#     data_to_predict = data_to_predict[data_to_predict[feature].isin(encoders[feature].classes_)]
 
 print(data_to_predict.shape)
 
@@ -116,18 +117,21 @@ total_races = len(data_to_predict['race_name'].unique())
 print(f"Correct predictions first place: {correct_predictions_first_place}/{total_races}")
 print(f"Correct predictions last place: {correct_predictions_last_place}/{total_races}")
 
-# Get the top 3 predictions for each race
-top3_predictions = data_to_predict.groupby('race_name')['predictions'].nsmallest(3)
+# Get the top 3 predictions for each race and course
+top3_predictions = data_to_predict.groupby(['race_name', 'course'])['predictions'].nsmallest(3)
 
-# Get the top 3 actual finishers for each race
-top3_secs = data_to_predict.groupby('race_name')['secs'].nsmallest(3)
+# Get the top 3 actual finishers for each race and course
+top3_secs = data_to_predict.groupby(['race_name', 'course'])['secs'].nsmallest(3)
 
 # Find the correct predictions
 correct_predictions_1 = 0
 correct_predictions_2 = 0
 correct_predictions_3=0
-for race_name in data_to_predict['race_name'].unique():
-    correct_count = len(set(top3_predictions[race_name].index).intersection(set(top3_secs[race_name].index)))
+for (race_name, course) in data_to_predict[['race_name', 'course']].drop_duplicates().to_numpy():
+    try:
+        correct_count = len(set(top3_predictions[(race_name, course)].index).intersection(set(top3_secs[(race_name, course)].index)))
+    except KeyError:
+        correct_count = 0
     if correct_count >= 1:
         correct_predictions_1 += 1
     if correct_count >= 2:
@@ -135,10 +139,10 @@ for race_name in data_to_predict['race_name'].unique():
     if correct_count >= 3:
         correct_predictions_3 += 1
 
-# Calculate the total number of unique races
-total_races = len(data_to_predict['race_name'].unique())
+# Calculate the total number of unique races and courses
+total_races_courses = len(data_to_predict[['race_name', 'course']].drop_duplicates())
 
-# Print the number of correct predictions and the total number of races
-print(f"Correct top 3 predictions (at least 1 in top 3): {correct_predictions_1}/{total_races}")
-print(f"Correct top 3 predictions (at least 2 in top 3): {correct_predictions_2}/{total_races}")
-print(f"Correct top 3 predictions (all 3 in top 3): {correct_predictions_3}/{total_races}")
+# Print the number of correct predictions and the total number of races and courses
+print(f"Correct top 3 predictions (at least 1 in top 3): {correct_predictions_1}/{total_races_courses}")
+print(f"Correct top 3 predictions (at least 2 in top 3): {correct_predictions_2}/{total_races_courses}")
+print(f"Correct top 3 predictions (all 3 in top 3): {correct_predictions_3}/{total_races_courses}")
