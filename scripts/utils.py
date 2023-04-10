@@ -64,3 +64,20 @@ def split_inputs(X, categorical_features, numerical_features):
         inputs.append(X[feature].values.reshape(-1, 1))
     inputs.append(X[numerical_features].values)
     return inputs
+
+def common_horses(df1: pd.DataFrame, df2: pd.DataFrame, col:str, n:int) -> list:
+    
+    df1[col] = df1[col].str.lower()
+    df2[col] = df2[col].str.lower()
+    # Count the occurrences of each horse in df1
+    horse_counts = df1[col].value_counts()
+
+    # Filter df1 to only include horses that ran less than 5 races
+    df1_filtered = df1[df1[col].isin(horse_counts[horse_counts > n].index)]
+    # Find the values in the 'Horse' column that are present in both DataFrames
+    common_values = pd.merge(df1_filtered[[col]], df2[[col]], on=col, how='inner')
+    
+    # Convert the common_values DataFrame to a list
+    common_horses_list = common_values[col].unique().tolist()
+    
+    return common_horses_list

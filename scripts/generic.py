@@ -22,32 +22,35 @@ data = pd.read_csv("Train_general.csv")
 
 # Encode categorical features
 categorical_features = [
-    'type',
-    'age_band',
-    # 'dist_m'
-    'going',
-    # 'ran'
-    # 'horse',
-    # 'age'
-    'sex',
-    # 'lbs'
-    # 'secs'
-    'jockey',
-    'trainer',
-    'owner',
-    'race_name',
-    'course',
-    # 'Unique_id'
+    'RaceTime', 
+    'Race', 
+    'Type', 
+    # 'Class', 
+    'AgeLimit',
+    # 'Ran',
+    # 'Yards', 
+    # 'Seconds', 
+    # 'Sp',
+    # 'Age', 
+    # 'WeightLBS', 
+    'Trainer', 
+    'Jockey', 
+    'Going 2', 
+    'Course2', 
+    'Region2'
 ]
 
 numerical_features = [
-    'dist_m',
-    'ran',
-    'age',
-    'lbs',
+    'Class', 
+    'Yards',
+    'Ran',
+    'Sp',
+    'Age', 
+    'WeightLBS', 
 ]
 
 data[categorical_features] = data[categorical_features].astype('str')
+data[categorical_features] = data[categorical_features].applymap(str.lower)
 
 # # Select all non-categorical columns
 # numerical_features = data.select_dtypes(exclude='object').columns
@@ -56,14 +59,22 @@ data[categorical_features] = data[categorical_features].astype('str')
 # Force-convert non-categorical columns to numeric data types
 data[numerical_features] = data[numerical_features].apply(pd.to_numeric, errors='coerce')
 
-data['secs']= data['secs'].apply(pd.to_numeric, errors='coerce')
+# data['fn_distance']= data['fn_distance'].apply(pd.to_numeric, errors='coerce')
+data['Class'] = data['Class'].fillna(0)
 
+na_counts = data.isna().sum()
+
+# Print the result
+print(na_counts)
+
+print(data.shape)
 data=data.dropna()
+print(data.shape)
 encoded_data, encoders = encode_categorical_features(data, categorical_features)
 
 # Split the dataset into features and target variable
-X = encoded_data.drop("secs", axis=1)
-y = encoded_data["secs"]
+X = encoded_data.drop("TotalBtn", axis=1)
+y = encoded_data["TotalBtn"]
 
 # Split the dataset into training and validation sets
 X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
